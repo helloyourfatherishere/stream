@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link rel="stylesheet" href="/css/proView.css">
+    <style>
+            .responsive-container {
+                    position:relative;
+                    padding-bottom:45%;
+                    height:auto;
+                    overflow:hidden;
+                    }
+
+                    .responsive-container iframe, .responsive-container object, .responsive-container embed {
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+}
+    </style>
 </head>
 <body>
     <div class="main">
@@ -16,27 +32,26 @@
             {{>n}}
         </div>
         <div class="sub_main">
+
             <div class="card">
+{{!--                 
                 <div class="head">
+        
                     <img src="{{data.main_img.link}}" alt="">
                     <p>{{data.title}}</p>
+                    
                 </div>
+                
+    <div class="responsive-container">
+
+  <iframe src="https://drive.google.com/file/d/1bbs4xTMzmvBFx3gUaKu3ORADndjBz3Za/preview" cover="../images/a.png"   frameborder="0" scrolling="no" seamless=""></iframe>
+  <div style="width: 80px; height: 80px; position: absolute; background-color: red; right: 0px; top: 0px; display: flex; align-items: center; justify-content: center;"> <img src="../images/a.png" alt="avc" style="width: 100%; height: 100%;"></div>
+
                 <div class="details">
                     <p>ID: <span class="det">{{data._id}}</span></p>
-                    <p>PRICE <span class="det">{{data.price}}</span></p>
-                    <p>DISCOUNT PRICE<span class="det">{{data.cut_price}}</span></p>
-                    <p>SALE PRICE: <span class="det">{{data.sell_price}}</span></p>
-                    <p>DICOUNT STATUS: <span class="det">{{data.discount}}</span></p>
-                    <p>SELL STATUS: <span class="det">{{data.sell}}</span></p>
                     <p>KEYWORDS: <span class="det">{{data.keywords}}</span></p>
                     <p>DESCRIPTION: <span class="det">{{data.des}}</span></p>
-                    <p>NOTICE: <span class="det">{{data.note}}</span></p>
                     <p>TABLE: <span class="det">{{data.table}}</span></p>
-                </div>
-                <div class="imgs">
-                    {{#each data.images}}
-                        <img src="{{this.link}}" alt="">
-                    {{/each}}
                 </div>
                 <div class="comments">
                     <h1>COMMENTS:</h1>
@@ -44,8 +59,51 @@
                     <p>{{this.name}}: <span class="comm">{{this.comment}}</span></p><hr>
                     {{/each}}
                 </div>
+            </div> --}}
+
+            <div class="main_video">
+                <div class="responsive-container">
+                    <iframe src="{{data.main_video.link}}" cover="../images/a.png"   frameborder="0" scrolling="no" seamless="" allow="fullscreen"> </iframe>
+                    <div style="width: 80px; height: 80px; position: absolute; background-color: red; right: 0px; top: 0px; display: flex; align-items: center; justify-content: center;">
+                        <img src="../images/icon.jpg" alt="avc" style="width: 100%; height: 100%;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="det">
+                <div class="p">
+                    <div class="title">
+                        <p><b style="color: white;">TITLE: </b>{{data.title}}</p>
+                        <p><b style="color: white;">CATEGORY: </b>{{data.category}}</p>
+                        <p><b style="color: white;">LANGUAGE: </b>{{data.language}}</p>
+                    </div>
+
+                    <div class="des">   
+                        <p>{{data.des}}</p>
+                    </div>
+                </div>
+
+                <div class="more">
+                    <div class="poster">
+                        <img src="{{data.main_img.link}}" alt="poster"> 
+                    </div>
+                    <div class="table">
+                        <table border="5" cellpadding="10" cellspacing="4">{{#tab data.table}}{{/tab}}</table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="comments">
+                     <h1>COMMENTS:</h1>
+                    {{#each data.comments}}
+                    <p>{{this.name}}: <span class="comm">{{this.comment}}</span></p>
+                    {{/each}}
+
             </div>
         </div>
     </div>
+
+
 </body>
 </html>

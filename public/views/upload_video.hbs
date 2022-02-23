@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/css/upload_pics.css">
+</head>
+<body>
+  <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
+       <div class="main">
+       <div class="title">
+           <h1>UPLOAD VIDEO</h1>
+       </div>
+       <div class="sub_main">
+        <div class="para">
+          <h1>PRECUATIONS:</h1>
+           <p>Select the video you want to upload, it may take a bit longer to be uploaded.<br><br><strong>Thanks</strong></strong></p>
+        </div>
+        <div class="form_div">
+          <p>Choose Video:</p>
+         <form action="/upload_video/{{id}}" method="post" enctype="multipart/form-data" class="form">
+         <input type="file" name="file" multiple="multiple"/>
+         <div class="b">
+          <button type="submit">Upload</button>
+         </div>
+         </form>
+        </div>
+
+       </div>
+     </div>
+</body>
+</html>

@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="/css/change.css">
 </head>
 <body>
+    <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
+
     <div class="main">
         <div class="head">
             <h1>{{head}}</h1>
@@ -15,7 +22,7 @@
         </div>
         <div class="body">
             <div class="des">
-                <p class="des_para">{{des}}<br><br><span style="font-weight: bold; color:#000080">Regards Admin</span></p>
+                <p class="des_para">{{des}}<br><br><span style="font-weight: bold; color:#3466fc">Regards Admin</span></p>
                 <p class="message">{{error}}</p>
             </div>
             <div class="form">
@@ -27,7 +34,7 @@
                     <div class="links">
                         <a href="/login">Login into admin panel</a>
                     </div>
-                    <div class="btn">
+                    <div class="b">
                         <button type="submit">Check</button>
                     </div>
                     </form>

@@ -20,6 +20,10 @@
             <div class="main_form">
                 <form action="/search/product" method="GET"> 
                     <input type="search" name="search" id="search" placeholder="search product by product id..." autocomplete="off">
+                    <select id="category" name="type" class="type">
+                        <option value="id" class="val">ID</option>
+                        <option value="name" class="val" selected="selected">NAME</option>
+                    </select>
                     <button type="submit">Search</button>
                 </form>
             </div>
@@ -28,10 +32,47 @@
     {{#each data}}
         
         <div class="card" >
-            <div class="sr">
-                <p>{{#index_plus @index}} {{/index_plus}}</p>
+            <div class="h1">
+                <div class="h_no">
+                    <p><b>NO: </b>{{#index_plus @index}} {{/index_plus}}</p>
+                </div>
+                <div class="h_id">
+                    <p><b>ID: </b>{{this._id}}</p>
+                </div>
             </div>
-            <div class="det">
+
+            <div class="h2">
+
+                <div class="h_img">
+                    <img src="{{this.main_img.link}} " alt="MAIN IMG" id={{this.main_img.id}}>
+                </div>
+
+                <div class="h_des"> 
+                    <p><b>Title: </b>{{this.title}}</p>
+                    <p><b>Category: </b>{{this.category}}</p>
+                    <p><b>Language: </b>{{this.language}}</p>
+                </div>
+            </div>
+
+            <div class="h3">
+                <div class="h_opt">
+                    <div class="more">
+                        <a href="/edit/{{this._id}}" style="text-decoration: none; font-size:140%;"><abbr title="edit"><div class="fa fa-pencil fa-solid r"></div></abbr></a><br><br>
+                        <a href="http://localhost:3000/view/{{this._id}}" style="text-decoration: none; font-size: 140%; border:1px" target="_blank"><abbr title="view in external site"><div class="fa fa-external-link r"></div></abbr></a><br><br>
+                        <form action="/view/{{this.id}}" method="get">
+                            <button type="submit" class="trash"><abbr title="view details"><i class="fa fa-envelope-o r"></i></abbr></button>
+                        </form>
+                        <form action="/delete/{{this.id}}" method="post">
+                            <button type="submit" class="trash"><abbr title="delete"><i class="fa fa-trash-o r d"></i></abbr></button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {{!-- <div class="sr">
+                <p>{{#index_plus @index}} {{/index_plus}}</p>
+            </div> --}}
+            {{!-- <div class="det">
                 <div class="img">
                     <img src="{{this.main_img.link}} " alt="MAIN IMG" id={{this.main_img.id}}>
                 </div>
@@ -44,8 +85,8 @@
                 <div class="price">
                     <p>{{this.price}}</p>
                 </div>
-            </div>
-            <div class="more">
+            </div> --}}
+            {{!-- <div class="more">
             <a href="/edit/{{this._id}}" style="text-decoration: none;"><div class="pencil">&#9999;</div></a><br><br>
             <a href="https://tmwords.netlify.app/view/{{this._id}}" style="text-decoration: none; font-size: 140%;"><div class="fa fa-external-link r"></div></a><br><br>
             <form action="/view/{{this.id}}" method="get">
@@ -54,7 +95,7 @@
             <form action="/delete/{{this.id}}" method="post">
                 <button type="submit" class="trash"><i class="fa fa-trash-o "></i></button>
             </form>
-            </div>
+            </div> --}}
         </div>
     {{/each}}
     </div>

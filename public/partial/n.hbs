@@ -11,7 +11,25 @@
 
 </head>
 <body>
-    <button id="btn" class="fa fa-bars btn"></button>
+    <div id="mySidepanel" class="sidepanel">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        {{!-- <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Clients</a>
+        <a href="#">Contact</a> --}}
+
+
+        <a href="/">Home</a>
+        <a href="/user">Users</a>
+        <a href="/cart">Carts</a>
+        <a href="/change/pass">Change Password</a>
+        <a href="/change/code">Change Security Code</a>
+        <a href="/feed">Feedback</a>
+        <a href="/more">More</a>
+    </div>
+
+<button class="openbtn" onclick="openNav()">&#9776;</button>
+    {{!-- <button id="btn" class="fa fa-bars btn"></button>
         <div class="side_main">
             <div class="side">
             <div class="cancel_div">
@@ -21,21 +39,16 @@
                 <a href="/"><li>Home</li></a>
                 <a href="/user"><li>Users</li></a>
                 <a href="/cart"><li>Carts</li></a>
-                <a href="/order/register"><li>Register Orders</li></a>
-                <a href="/order/unregister"><li>Unregistered Orders</li></a>
-                <a href="/process"><li>Process</li></a>
-                <a href="/delievered"><li>Delievered</li></a>
                 <a href="/change/pass"><li>Change Password</li></a>
                 <a href="/change/code"><li>Change Security Code</li></a>
                 <a href="/feed"><li>Feedback</li></a>
-                <a href="/poster"><li>Posters</li></a>
-                <a href="/More"><li>More</li></a>
+                <a href="/more"><li>More</li></a>
             </ul>
         </div>
 
-        </div>
+        </div> --}}
         <script>
-            let btn= document.querySelector("#btn");
+            {{!-- let btn= document.querySelector("#btn");
             function show(){
                 var side= document.querySelector(".side")
                 side.style.right="0"
@@ -53,7 +66,17 @@
                 side.style.height="0"
                 side.style.display="none"
             }
-            cancel_btn.addEventListener("click", hide)
+            cancel_btn.addEventListener("click", hide) --}}
+            /* Set the width of the sidebar to 250px (show it) */
+            function openNav() {
+            document.getElementById("mySidepanel").style.width = "250px";
+            }
+
+            /* Set the width of the sidebar to 0 (hide it) */
+            function closeNav() {
+            document.getElementById("mySidepanel").style.width = "0";
+            }
+
         </script>
 </body>
 </html>

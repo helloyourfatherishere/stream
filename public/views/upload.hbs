@@ -8,13 +8,19 @@
     <link rel="stylesheet" href="/css/upload.css">
 </head>
 <body>
+    <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
     <div class="main">
         <div class="heading">
-            <h1>UPLOAD PRODUCT DETAILS</h1>
+            <h1>UPLOAD VIDEO DETAILS</h1>
         </div>
         <div class="form_div">
             <form action="/upload" method="post">
-        <div class="detail_div">
+        {{!-- <div class="detail_div">
             Title:<input type="text" placeholder="title: men's black..." name="title"><br>
 
             PRICE: <input type="text" placeholder="price in $: $11..." name="price"><br>
@@ -22,7 +28,7 @@
             SALE PRICE :<input type="text" placeholder="sell price in $: $2..." name="sell_price"><br>
 
             VISIBLITY: 
-            <label>Yes: <input type="radio" name="visiblity" value="true"></label>
+            <label>Yes: <input type="radio" name="visiblity" required="true" value="true"></label>
             <label>No: <input type="radio" name="visiblity" value="false"></label><br>
             
             DISCOUNT: 
@@ -45,13 +51,19 @@
                  {{/cate}}
             </select><br>
 
+            LANGUAGE<select id="category" name="language">
+                
+                {{#cate language}}
+                 {{/cate}}
+            </select><br>
+
             TYPE <select id="type" name="type">
                 <option value="men">MEN</option>
                 <option value="women">WOMEN</option>
                 </select><br>
-            AVAILABLE COLOURS: <input type="text" placeholder="available colors: red, gree, yellow," name="colors"><br>
+             
             
-            AVAILABLE SIZES: <input type="text" placeholder="available sizes: small, medium ,large" name="sizes"><br>
+           AVAILABLE SIZES: <input type="text" placeholder="available sizes: small, medium ,large" name="sizes"><br>
 
             SEARCH KEYWORDS: <input type="text" placeholder="search keywords: black pants" name="search_keyword"><br>
 
@@ -62,10 +74,82 @@
             DESCRIPTION: <input type="text" placeholder="description: imporant things to know" name="des"><br>
 
             NOTE: <input type="text" placeholder="note: Note! this is not..." name="note"><br>
-        </div>
-        <div class="btn">
-            <button type="submit">Upload</button>
-        </div>
+        </div> --}}
+
+        <div class="page">    
+
+            <label class="field field_v3">
+            <input class="field__input" placeholder="e.g. iron man" name="title" autocomplete="off">
+            <span class="field__label-wrap">
+                <span class="field__label">Title</span>
+            </span>
+            </label>
+
+            <label class="field field_v3">
+               <pre class="field field_v3"> VISIBLITY:   <label>Yes: <input  type="radio" name="visiblity" required="true" value="true">  </label>    <label>No: <input  type="radio" name="visiblity" value="false"></label></pre>
+            </label>
+            
+            
+            <label class="field field_v3">
+            <select id="category" name="category" class="field__input">
+                
+                {{#cate cate}}
+                 {{/cate}}
+            </select><br>
+            <span class="field__label-wrap">
+                <span class="field__label">CATEGORY</span>
+            </span>
+            </label>
+
+            
+            <label class="field field_v3">
+            <select id="category" name="language" class="field__input">
+                
+                {{#cate language}}
+                 {{/cate}}
+            </select><br>
+            <span class="field__label-wrap">
+                <span class="field__label">LANGUAGE</span>
+            </span>
+            </label>
+            
+            
+            <label class="field field_v3">
+            <input class="field__input" placeholder="e.g. iron man1" name="search_keyword" autocomplete="off">
+            <span class="field__label-wrap">
+                <span class="field__label">SEARCH KEYWORDS</span>
+            </span>
+            </label>
+
+            
+            <label class="field field_v3">
+            <input class="field__input" placeholder="e.g. iron man, iron man1" name="keywords" autocomplete="off">
+            <span class="field__label-wrap">
+                <span class="field__label">KEYWORDS</span>
+            </span>
+            </label>
+
+            
+            <label class="field field_v3">
+            <input class="field__input" placeholder="e.g. cast:rdj,pepper pots; production: marvel" name="table" autocomplete="off">
+            <span class="field__label-wrap">
+                <span class="field__label">TABLE</span>
+            </span>
+            </label>
+
+            
+            <label class="field field_v3">
+            <textarea class="field__input"  placeholder="iron man is a 2008 american superhero film based on the marvel comics..." name="des" style="height: 150px; resize:none;" autocomplete="off"></textarea>
+            <span class="field__label-wrap">
+                <span class="field__label">DESCRIPTION</span>
+            </span>
+            </label>
+
+            
+                <div class="b">
+                   <button type="submit">Upload</button>
+                </div>
+            </div>
     </form>
 
         </div>

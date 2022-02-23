@@ -58,11 +58,11 @@
     border: 1px solid black;
     padding: .5%;
   }
-  .btn{
+  .b{
    position: relative;
    bottom: -50%;
   }
-   .btn>button{
+   .b>button{
    width: 60%;
    margin: auto 20%;
    border: none;
@@ -72,6 +72,6 @@
    cursor: pointer;
    transition: all .3s;
   }
- .btn>button:hover, .btn>button:active, .btn>button:focus{
+ .b>button:hover, .b>button:active, .b>button:focus{
      background-color: #000080;
    }

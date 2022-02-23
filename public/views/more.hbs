@@ -8,24 +8,44 @@
      <link rel="stylesheet" href="/css/more.css">
 </head>
 <body>
-    <h1>SETTINGS</h1>
+    <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
+
+    <h1 align="center" style="color: white;">SETTINGS</h1>
+    <div class="main_div">
+    <div class="form_div">
     <form action="/more" method="post">
     <div class="detail_div">
 
-        DISCOUNT: {{data.discount}}
-        <label>Yes: <input type="radio" name="discount" value="true"></label>
-        <label>No: <input type="radio" name="discount" value="false"></label><br>
-        
-        Sell: {{data.sell}}
-        <label>Yes: <input type="radio" name="sell" value="true"></label>
-        <label>No: <input type="radio" name="sell" value="false"></label><br>
+        <div class="page">    
 
-        Add Categories:
-        <input type="text" name="cate" placeholder="add categories" value="{{data.cate}}"><br>
-        Add Brands:
-        <input type="text" name="brand" placeholder="add brands" value="{{data.brand}}"><br>
-        <button type="submit">Upload</button>
+            <label class="field field_v3">
+            <input class="field__input" placeholder="e.g. iron man" name="title" autocomplete="off" value="{{data.cate}}">
+            <span class="field__label-wrap">
+                <span class="field__label">Category: </span>
+            </span>
+            </label>
+
+            <label class="field field_v3">
+            <input class="field__input" placeholder="e.g. iron man" name="title" autocomplete="off" value="{{data.language}}">
+            <span class="field__label-wrap">
+                <span class="field__label">Language: </span>
+            </span>
+            </label>
+
+            <div class="b">
+                <button type="submit">Upload</button>
+            </div>
+        </div>
         </div>
     </form>
+
+    </div>
+
+    </div>
 </body>
 </html>

@@ -8,6 +8,13 @@
     <title>Admin Panel</title>
 </head>
 <body>
+    <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
+
     <div class="main">
         <div class="title">
              <p>EXCHANGE LINK</p>
@@ -15,7 +22,7 @@
         <div class="sub_main">
             <div class="para">
                 <h1>PRECUATIONS:</h1>
-                <p>Exchange these links to <a href="https://gdurl.com" style="color: blue; text-decoratio: underlined; cursor: pointer;">https://gdurl.com</a>  after that click on <strong>create perma link</strong> and then copy the url now paste that here again and remove things from the last slahs</p>
+                <p>Exchange these links to <a href="https://gdurl.com" style="color: blue; text-decoratio: underlined; cursor: pointer;">https://gdurl.com</a>  after that click on <strong>create perma link</strong> and then copy the url now paste that here again and remove things from the last slah.</p>
             </div>
             <div class="form_div">
                 <form action="/link/{{id}}" method="post" class="form">
@@ -26,7 +33,7 @@
                             <input type="text" value={{this.link}} name="img{{@key}}">
                         </fieldset>
                     {{/each}}
-                        <div class="btn">
+                        <div class="b">
                         <button type="submit">ADD TO DATABASE</button>
                         </div>
                 </form>

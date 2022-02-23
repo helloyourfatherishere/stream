@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body{
-    background-color:  #F0F0F0;
+    background-color:  rgb(10, 10, 10);
 }
 .nav{
     display: flex;
@@ -66,7 +66,6 @@ body{
 }
 .det{
     font-weight: normal;
-    margin: auto 10px;
     text-align: justify;
 }
 .imgs{
@@ -90,6 +89,7 @@ body{
     font-size: 150%;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: bold;
+    color: white;
 }
 .comments>p{
     font-size: 110%;
@@ -97,10 +97,72 @@ body{
     font-weight: bold;
     text-transform: capitalize;
     margin: 1% 1.5%;
+    border: 1px solid grey;
+    border-radius: 0 8px 8px 8px;
+    padding: .5% 1%;
+    color: lightgrey;
 }
 .comm{
     font-weight: normal;
+    border: 1px solid red;
+    width: auto;
+    color: white;
 }
 hr{
     margin: auto 5%;
+}
+.det{
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+    border: 2px solid white;
+}
+.p{
+    border-right: 1px solid white;
+    flex: .60;
+    color: lightgrey;
+}
+.title{
+    font-size: 1.2rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-transform: capitalize;
+    margin: 1% .5%;
+}
+.des{
+    font-size: 1.1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-transform: capitalize;
+    margin: 1% .5%;
+    color: lightgrey;
+}
+.more{
+    flex: .40;
+    height: auto;
+}
+.poster{
+    height: 250px;
+    margin-bottom: 5px;
+    padding: .2%;
+}
+.poster>img{
+    width: 100%;
+    height: 100%;
+}
+table{
+    border: 2px solid white;
+    width: 98%;
+    color: lightgrey;
+    height: auto;
+    margin-bottom: 1%;
+    margin: auto 1%;
+}
+tr{
+    text-transform: capitalize;
+    white-space: nowrap;
+    font-size: 1rem;
+}
+td{
+    text-transform: capitalize;
+    white-space: nowrap;
+    font-size: 1.1rem;
 }

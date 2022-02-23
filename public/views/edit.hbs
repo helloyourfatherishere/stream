@@ -8,68 +8,94 @@
     <link rel="stylesheet" href="/css/upload.css">
 </head>
 <body>
-  
-     <div class="main">
+    <div class="nav">
         <div class="heading">
-            <h1>UPLOAD PRODUCT DETAILS</h1>
+            <p>Welcome To Admin Panel</p>
         </div>
+        {{>n}}
+    </div>
+    <div class="main">
+        <h1 align="center">Edit Details:</h1>
         <div class="form_div">
             <form action="/edit/{{dataObj.id}}" method="post">
-        <div class="detail_div">
-            Title:<input type="text" placeholder="title: men's black..." name="title" value="{{dataObj.title}}"><br>
-
-            PRICE: <input type="text" placeholder="price in $: $11..." name="price" value="{{dataObj.price}}"><br>
-            DISCOUNT PRICE: <input type="text" placeholder="price discount in $: $8..." name="cut_price" value="{{dataObj.cut_price}}"><br>
-            SALE PRICE :<input type="text" placeholder="sell price in $: $2..." name="sell_price" value="{{dataObj.sell_price}}"><br>
-
-            VISIBLITY: <b>"{{dataObj.visiblity}}"</b>
-            <label>Yes: <input type="radio" name="visiblity" value="true"></label>
-            <label>No: <input type="radio" name="visiblity" value="false"></label><br>
             
-            DISCOUNT: <b>"{{dataObj.discount}}"</b>
-            <label>Yes: <input type="radio" name="discount" value="true"></label>
-            <label>No: <input type="radio" name="discount" value="false"></label><br>
-            
-            SALE:  <b>"{{dataObj.sell}}"</b>
-            <label>Yes: <input type="radio" name="sell" value="true"></label>
-            <label>No: <input type="radio" name="sell" value="false"></label><br>
-            
-            BRAND: <b>"{{dataObj.brand}}"</b>
-            <label>Yes: <input type="radio" name="brand" value="true"></label>
-            <label>No: <input type="radio" name="brand" value="false"></label><br>
+            <div class="page">    
 
-            BRAND NAME: <input type="text" placeholder="brand name: denim..." name="brand_name" value="{{dataObj.brand_name}}" id="brand_name"><br>
+                <label class="field field_v3">
+                <input class="field__input" placeholder="e.g. iron man" name="title" autocomplete="off" value="{{dataObj.title}}">
+                <span class="field__label-wrap">
+                    <span class="field__label">Title</span>
+                </span>
+                </label>
 
-            CATEGORY<select id="category" name="category" value={{dataObj.category}}>
-                {{#cate cate}}
-                 {{/cate}}
-            </select><br>
+                <label class="field field_v3">
+                <pre class="field field_v3"> VISIBLITY: <b>"{{dataObj.visiblity}}"</b>  <label>Yes: <input  type="radio" name="visiblity" required="true" value="true">  </label>    <label>No: <input  type="radio" name="visiblity" value="false"></label></pre>
+                </label>
 
-            TYPE <select id="type" name="type"  value={{dataObj.type}}>
-                <option value="men">MEN</option>
-                <option value="women">WOMEN</option>
+                <label class="field field_v3">
+                <select id="category" name="category" class="field__input">
+                    
+                    {{#cate cate}}
+                    {{/cate}}
                 </select><br>
-            AVAILABLE COLOURS: <input type="text" placeholder="available colors: red, gree, yellow," name="colors" value="{{dataObj.colors}}"><br>
+                <span class="field__label-wrap">
+                    <span class="field__label">CATEGORY</span>
+                </span>
+                </label>
+
+                
+                <label class="field field_v3">
+                <select id="category" name="language" class="field__input">
+                    
+                    {{#cate language}}
+                    {{/cate}}
+                </select><br>
+                <span class="field__label-wrap">
+                    <span class="field__label">LANGUAGE</span>
+                </span>
+                </label>
+                
+                
+                <label class="field field_v3">
+                <input class="field__input" placeholder="e.g. iron man1" name="search_keyword" autocomplete="off" value="{{dataObj.search_keyword}}">
+                <span class="field__label-wrap">
+                    <span class="field__label">SEARCH KEYWORDS</span>
+                </span>
+                </label>
+
+                
+                <label class="field field_v3">
+                <input class="field__input" placeholder="e.g. iron man, iron man1" name="keywords" autocomplete="off" value="{{dataObj.keywords}}">
+                <span class="field__label-wrap">
+                    <span class="field__label">KEYWORDS</span>
+                </span>
+                </label>
+
+                
+                <label class="field field_v3">
+                <input class="field__input" placeholder="e.g. cast:rdj,pepper pots; production: marvel" name="table" autocomplete="off" value="{{dataObj.table}}">
+                <span class="field__label-wrap">
+                    <span class="field__label">TABLE</span>
+                </span>
+                </label>
+
+                
+                <label class="field field_v3">
+                <textarea class="field__input"  placeholder="iron man is a 2008 american superhero film based on the marvel comics..." name="des" style="height: 150px; resize:none;" autocomplete="off" value="{{dataObj.des}}">{{dataObj.des}}</textarea>
+                <span class="field__label-wrap">
+                    <span class="field__label">DESCRIPTION</span>
+                </span>
+                </label>
+
             
-            AVAILABLE SIZES: <input type="text" placeholder="available sizes: small, medium ,large" name="sizes" value="{{dataObj.sizes}}"><br>
-
-            SEARCH KEYWORDS: <input type="text" placeholder="search keywords: black pants" name="search_keyword" value={{dataObj.search_keyword}}><br>
-
-            KEYWORDS: <input type="text" placeholder="keywords: pant, black, brand,..." name="keywords" value="{{dataObj.keywords}}"><br>
-
-            TABLE: <input type="text" placeholder="table details: color: red, black, white; size: small ,medium ,large ;" name="table" value="{{dataObj.table}}"><br>
-
-            DESCRIPTION: <input type="text" placeholder="description: imporant things to know" name="des" value="{{dataObj.des}}" style="height: 100px;"><br>
-
-            NOTE: <input type="text" placeholder="note: Note! this is not..." name="note" value="{{dataObj.note}}" style="height: 150px;"><br>
-        </div>
-        <div class="btn">
-            <button type="submit">Upload</button>
-        </div>
-    </form>
+                <div class="b">
+                   <button type="submit">Upload</button>
+                </div>
+            </div>
+            </form>
 
         </div>
     </div>
+    
 </body>
 </html>
-

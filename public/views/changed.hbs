@@ -8,6 +8,13 @@
     <link rel="stylesheet" href="/css/changed.css">
 </head>
 <body>
+    <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
+
     <div class="main">
         <div class="head">
             <h1>{{title}}</h1>
@@ -21,7 +28,7 @@
                         
                         {{place}}: <input type="password" name="data" placeholder="{{placeholder}}">
                     </div>
-                    <div class="btn">
+                    <div class="b">
                         <button type="submit">Enter</button>
                     </div>
                     </form>

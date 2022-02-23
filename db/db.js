@@ -1,6 +1,6 @@
 var mongoose= require("mongoose");
-var db= "mongodb+srv://ecom:ecom123@db.gby5k.mongodb.net/db?retryWrites=true&w=majority"
-
+// var db= "mongodb://localhost:27017/stream"
+var db = "mongodb+srv://stream:webWorkFirst_1104@cluster0.fwcin.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 mongoose.connect(db,
     {useNewUrlParser: true,
     useUnifiedTopology: true,

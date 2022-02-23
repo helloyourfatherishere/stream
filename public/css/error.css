@@ -5,7 +5,10 @@ Author: OS Templates
 Author URI: https://www.os-templates.com/
 Licence: <a href="https://www.os-templates.com/template-terms">Website Template Licence</a>
 */
-
+body{
+    background-color:  rgb(10, 10, 10);
+    color: white;
+}
 #fof{display:block; width:100%; margin:100px 0; line-height:auto; text-align:center;}
 #fof .hgroup{text-transform:uppercase;}
 #fof .hgroup h1{margin-bottom:25px; font-size:80px;}

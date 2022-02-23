@@ -47,6 +47,17 @@ hbs.registerHelper("total", function(price, quantity){
     return(parseInt(price) *parseInt(quantity))
 })
 
+hbs.registerHelper("tab", function(data){
+    console.log(data)
+    var d=data.split(";")
+    console.log(d)
+    var t=d.map((val)=>{
+        var da=val.split(":")
+        return(`<tr><td><b>${da[0]}</b></td><td>${da[1]}</td></tr>`)
+    })
+    console.log(t)
+    return(t)
+})
 hbs.registerHelper("cate", function(val){
     console.log(val)
     var d=val[0];
@@ -118,6 +129,17 @@ app.get("/", (req, res)=>{
         };
         find();
     }
+
+    // var find= async function(){
+    //     try{
+    //         var findData= await product.find({}).sort({date: -1});
+    //         res.render("index", {data: findData});
+    //     }
+    //     catch{
+    //         (e)=>{console.log(e)}
+    //     }
+    // };
+    // find();
 })
 app.get("/view/:id", (req, res)=>{
     let token= req.cookies.jwt;
@@ -151,7 +173,8 @@ app.get("/upload", (req, res)=>{
             let find = await main.findOne({});
             res.render("upload", {
                 cate: find.cate,
-                brand: find.brand
+                language: find.language
+
             });
             }
             catch{
@@ -161,42 +184,45 @@ app.get("/upload", (req, res)=>{
         findMainData();
 
     }
+
+    // var findMainData= async function(){
+    //     try{
+    //     let find = await main.findOne({});
+    //     res.render("upload", {
+    //         cate: find.cate,
+    //         language: find.language
+    //     });
+    //     }
+    //     catch{
+    //         (e)=>{console.log(e)}
+    //     }
+    // };
+    // findMainData();
 })
 
 app.post("/upload", (req, res)=>{
-    var {title, price, cut_price, sell_price, visiblity,discount,  sell, brand, brand_name, category, type ,colors, sizes,search_keyword,keywords, table ,des, note }= req.body;
+    // var {title, price, cut_price, sell_price, visiblity,discount,  sell, brand, brand_name, category, type ,colors, sizes,search_keyword,keywords, table ,des, note }= req.body;
+    var {title,  visiblity, category, language ,search_keyword,keywords, table ,des, }= req.body;
     console.log(req.body);
     async function upload(){
         try{
             console.log("REACHED");
             let t= title.toLowerCase();
-            let d= des.toLowerCase();
-            let n= note.toLowerCase();
-            let b= brand_name.toLowerCase();
+            let d= des.toLowerCase();;
             let s = search_keyword.toLowerCase();
-            let col= colors.toLowerCase();
-            let siz= sizes.toLowerCase();
             let k= keywords.toLowerCase();
             var upload = new product ({
                 title: t,
-                price: price,
-                cut_price: cut_price,
-                sell_price: sell_price,
                 visiblity: visiblity,
-                discount: discount,
-                sell: sell,
-                brand: brand,
-                brand_name: b,
                 category: category,
-                type: type,
-                colors: col,
-                sizes: siz,
+                language: language,
                 search_keyword: s,
                 keywords: k,
                 table: table,
                 des: d,
-                note: n,
-                images:[]
+                main_img:{},
+                main_video:{}
+                
             })
             var data = await upload.save();
             res.render("upload_pics", {id: data._id})
@@ -230,7 +256,7 @@ app.post("/upload_pics/:id",upload_pics,  (req, res)=>{
                 });
                 console.log(response)
                 var response_data= response.data;
-                console.log(response)
+                console.log(response_data)
                 var fileId= response_data.id;
                 //GENERATING VIEW LINK INTO GOOGLE DRIVE
                 await drive.permissions.create({
@@ -255,7 +281,7 @@ app.post("/upload_pics/:id",upload_pics,  (req, res)=>{
                 console.log(`I: ${i}, pics: ${pics.length}`)
                 if(detail.length==pics.length){
                     //SENDING TO CHANGE URL TO VIEW URL
-                    res.render("link", {data: detail, id: req.params.id});
+                    res.render("link", {data: detail,id: req.params.id});
                     res.status(201).header(201).setHeader(201);
                 }   
                     
@@ -275,6 +301,7 @@ app.post("/upload_pics/:id",upload_pics,  (req, res)=>{
  
 })
 
+
 app.post("/link/:id", (req,res)=>{
     var reqData=req.body
     console.log(req.body)
@@ -292,9 +319,10 @@ app.post("/link/:id", (req,res)=>{
                     var findData= await product.findByIdAndUpdate({_id: req.params.id}, {$set: {images: data, main_img:main_img}}, {
                         new: true, useFindAndModify: false
                     })
-                    res.render("productPrint", {
-                        data: findData
-                    })
+                    
+                    res.render("upload_video", {
+                        id: req.params.id
+                })
         }
         catch{
             (e)=>{console.log(e)}
@@ -302,40 +330,29 @@ app.post("/link/:id", (req,res)=>{
     };
     save();
 });
-app.get("/poster", (req, res)=>{
-    let token= req.cookies.jwt;
-    if(!token||token==null||token==undefined||token.length==0){
-        res.redirect("/login")
-    }
-    else{
-        res.render("poster");
-    }
-});
 
-app.post("/poster", upload_poster ,(req, res)=>{
-    var upload_poster =  async function(arr){       
+app.post("/upload_video/:id",upload_pics,  (req, res)=>{
+    var upload =  async function(arr){       
         var pics= req.files;
-        console.log(pics)
-        for (let j=0; j<pics.length; j++){
+        for (var i=0; i<pics.length; i++){
             try{
-            var uploadAndViewPoster= async function(){
+            var uploadAndView= async function(){
                 try{
                     //UPLOADING TO GOOGLE DRIVE
-                var filePath= path.join(__dirname,pics[j].path);
+                var filePath= path.join(__dirname,pics[i].path);
+                console.log(filePath)
                 var response = await drive.files.create({
                     requestBody:{
-                        name: pics[j].originalname,
-                        mimeType: pics[j].mimeType
+                        name: pics[i].originalname,
+                        mimeType: pics[i].mimeType
                     },
                     media: {
-                        mimeType: pics[j].mimeType,
+                        mimeType: pics[i].mimeType,
                         body: fs.createReadStream(filePath)
                     }
-                })
-                var response_data= response.data
+                });
+                var response_data= response.data;
                 var fileId= response_data.id;
-                console.log(response_data)
-                console.log(response_data+ " " + fileId);
                 //GENERATING VIEW LINK INTO GOOGLE DRIVE
                 await drive.permissions.create({
                     fileId: fileId,
@@ -349,19 +366,38 @@ app.post("/poster", upload_poster ,(req, res)=>{
                     fileId: fileId,
                     fields: "webViewLink, webContentLink"
                 })
+                var l= result.data.webViewLink
+                var lin= l.replace("/view?usp=drivesdk","/preview")
+                console.log(l)
+                console.log(lin)
                 var obj={
                     id: fileId,
-                    link: result.data.webViewLink
+                    link: lin
                 };
                 console.log(obj)
                 var detail= arr=arr.concat(obj);
                 //DELETING UPLOADED FILE FROM SERVER NOT FROM GOOGLE DRIVE
                 fs.unlink(filePath,()=>{console.log("file deleted")})
-                console.log(`I: ${j}, pics: ${pics.length}`)
+                console.log(`I: ${i}, pics: ${pics.length}`)
                 if(detail.length==pics.length){
+
+                    //SAVING VIDEO TO DATABASE
+                    var save=async function(){
+                        try{
+                            var findData= await product.findByIdAndUpdate({_id: req.params.id}, {$set: {main_video:obj}}, {
+                                    new: true, useFindAndModify: false
+                                })
+                            console.log(findData)
+                            res.redirect("/")
+                        }
+                        catch(e){
+                            console.log(e)
+                        }
+                    };
+                    save()
                     //SENDING TO CHANGE URL TO VIEW URL
-                    res.render("posterLink", {data: detail});
-                    res.status(201).header(201).setHeader(201);
+                    // res.render("link", {data: detail,type:"video", id: req.params.id});
+                    // res.status(201).header(201).setHeader(201);
                 }   
                     
                 }
@@ -369,38 +405,154 @@ app.post("/poster", upload_poster ,(req, res)=>{
                     (e)=>{console.log(e)}
                 }
             };
-                    uploadAndViewPoster();
+                    uploadAndView();
              }
              catch(e){
                  console.log(e)
                 }
         }
     };
-    upload_poster([]);
-});
-app.post("/posterLink/", (req,res)=>{
-    var reqData=req.body
-    var valueInArray= Object.values(reqData)
-    console.log(valueInArray);
-    var savePoster= async function(){
-        try{    
-                var data= valueInArray.map((val)=>{
-                    console.log(val)
-                    return({id:val[0], link:val[1]})
-                })
-                    console.log(data)
-                    var findData= await main.findOneAndUpdate({},{$set: {poster: data}}, {
-                        new: true, useFindAndModify: false
-                    })
-                    console.log(findData)
-                    res.redirect("/");
-        }
-        catch{
-            (e)=>{console.log(e)}
-        }
-    };
-    savePoster();
-});
+    upload([]);
+ 
+})
+
+
+// app.post("/link/:type/:id", (req,res)=>{
+//     var reqData=req.body
+//     console.log(req.body)
+//     var valueInArray= Object.values(reqData)
+//     console.log(valueInArray);
+//     var save= async function(){
+//         try{    
+//                 var data= valueInArray.map((val)=>{
+//                     console.log(val)
+//                     return({id:val[0], link:val[1]})
+//                 })
+//                     console.log(data)
+//                     var main_img= data[0]
+//                     console.log(main_img);
+//                     if(req.params.type="pics"){      
+//                         var findData= await product.findByIdAndUpdate({_id: req.params.id}, {$set: {main_img:main_img}}, {
+//                             new: true, useFindAndModify: false
+//                         })
+//                         res.render("upload_video", {
+//                             id: req.params.id
+//                     })
+//                     }   
+//                     else{
+//                         var findData= await product.findByIdAndUpdate({_id: req.params.id}, {$set: {main_video:main_img}}, {
+//                             new: true, useFindAndModify: false
+//                         })
+//                         res.redirect("/")
+//                     }
+//         }
+//         catch{
+//             (e)=>{console.log(e)}
+//         }
+//     };
+//     save();
+// });
+
+
+// app.get("/poster", (req, res)=>{
+//     let token= req.cookies.jwt;
+//     if(!token||token==null||token==undefined||token.length==0){
+//         res.redirect("/login")
+//     }
+//     else{
+//         res.render("poster");
+//     }
+// });
+
+// app.post("/poster", upload_poster ,(req, res)=>{
+//     var upload_poster =  async function(arr){       
+//         var pics= req.files;
+//         console.log(pics)
+//         for (let j=0; j<pics.length; j++){
+//             try{
+//             var uploadAndViewPoster= async function(){
+//                 try{
+//                     //UPLOADING TO GOOGLE DRIVE
+//                 var filePath= path.join(__dirname,pics[j].path);
+//                 var response = await drive.files.create({
+//                     requestBody:{
+//                         name: pics[j].originalname,
+//                         mimeType: pics[j].mimeType
+//                     },
+//                     media: {
+//                         mimeType: pics[j].mimeType,
+//                         body: fs.createReadStream(filePath)
+//                     }
+//                 })
+//                 var response_data= response.data
+//                 var fileId= response_data.id;
+//                 console.log(response_data)
+//                 console.log(response_data+ " " + fileId);
+//                 //GENERATING VIEW LINK INTO GOOGLE DRIVE
+//                 await drive.permissions.create({
+//                     fileId: fileId,
+//                     requestBody:{
+//                         role: "reader",
+//                         type: "anyone"
+//                     }
+//                 })
+
+//                 var result= await drive.files.get({
+//                     fileId: fileId,
+//                     fields: "webViewLink, webContentLink"
+//                 })
+//                 var obj={
+//                     id: fileId,
+//                     link: result.data.webViewLink
+//                 };
+//                 console.log(obj)
+//                 var detail= arr=arr.concat(obj);
+//                 //DELETING UPLOADED FILE FROM SERVER NOT FROM GOOGLE DRIVE
+//                 fs.unlink(filePath,()=>{console.log("file deleted")})
+//                 console.log(`I: ${j}, pics: ${pics.length}`)
+//                 if(detail.length==pics.length){
+//                     //SENDING TO CHANGE URL TO VIEW URL
+//                     res.render("posterLink", {data: detail});
+//                     res.status(201).header(201).setHeader(201);
+//                 }   
+                    
+//                 }
+//                 catch{
+//                     (e)=>{console.log(e)}
+//                 }
+//             };
+//                     uploadAndViewPoster();
+//              }
+//              catch(e){
+//                  console.log(e)
+//                 }
+//         }
+//     };
+//     upload_poster([]);
+// });
+// app.post("/posterLink/", (req,res)=>{
+//     var reqData=req.body
+//     var valueInArray= Object.values(reqData)
+//     console.log(valueInArray);
+//     var savePoster= async function(){
+//         try{    
+//                 var data= valueInArray.map((val)=>{
+//                     console.log(val)
+//                     return({id:val[0], link:val[1]})
+//                 })
+//                     console.log(data)
+//                     var findData= await main.findOneAndUpdate({},{$set: {poster: data}}, {
+//                         new: true, useFindAndModify: false
+//                     })
+//                     console.log(findData)
+//                     res.redirect("/");
+//         }
+//         catch{
+//             (e)=>{console.log(e)}
+//         }
+//     };
+//     savePoster();
+// });
 app.get("/more", (req, res)=>{
     let token= req.cookies.jwt;
     if(!token||token==null||token==undefined||token.length==0){
@@ -419,15 +571,26 @@ app.get("/more", (req, res)=>{
         findMain();
 
     }
+
+    // var findMain= async function(){
+    //             try{
+    //                 let find = await main.findOne();
+    //                  res.render("more", { data: find})
+    //             }
+    //             catch{
+    //                 (e)=>{console.log(e)}
+    //             }
+    //         };
+    //         findMain();
 });
 app.post("/more", (req, res)=>{
     var editAll= async function(){
+        console.log(req.body)
         try{
-            let {discount, sell, cate, brand}= req.body;
-            var findMain= await main.findOneAndUpdate({},{$set: {discount: discount, sell: sell, cate: cate, brand: brand}},{
+            let { cate, language}= req.body;
+            var findMain= await main.findOneAndUpdate({},{$set: {cate: cate, language: language}},{
                 new: true, useFindAndModify: false
             });
-            await product.updateMany({}, {discount: discount, sell: sell})
             console.log(findMain)
             res.redirect("/");           
         }catch{
@@ -448,28 +611,19 @@ app.get("/edit/:id",(req, res)=>{
                  var data= await product.findOne({_id: id});
                  var findMain= await main.findOneAndUpdate({});
                  var cate=findMain.cate;
+                 var language=findMain.language;
+                 console.log(data)
                 var dataObj={
                   id: id,
                   title: data.title,
                   keywords: data.keywords,
                   table: data.table,
                   des: data.des,
-                  note: data.note,
-                  price: data.price,
-                  cut_price:data.cut_price,         
-                  sell_price: data.sell_price,
-                  brand_name: data.brand_name,
-                  category: data.category,
-                  type: data.type,
-                  sell: data.sell,
-                  colors: data.colors,
-                  sizes: data.sizes,
-                  visiblity: data.visiblity,
-                  brand:data.brand,
                   search_keyword: data.search_keyword,
-                  discount:data.discount,
+                  category: data.category,
+                  visiblity: data.visiblity,
                 }
-                 res.render("edit", {dataObj,cate})
+                 res.render("edit", {dataObj,cate,language})
             }
             catch{
                 (e)=>{
@@ -487,54 +641,30 @@ app.post("/edit/:id", (req, res)=>{
         try{
             let data= req.body;
             let t= data.title.toLowerCase();
-            let b= data.brand_name.toLowerCase();
             let d= data.des.toLowerCase();
-            let n=data.note.toLowerCase();
             let s=data.search_keyword.toLowerCase();
             let k=data.keywords.toLowerCase();
-            let colors= data.colors.toLowerCase();
-            let sizes= data.sizes.toLowerCase();
             let tab = data.table;
             var data_obj= {
             title: t,
-            price: data.price,
-            cut_price: data.cut_price,
-            sell_price: data.sell_price,
             visiblity: data.visiblity,
-            discount: data.discount,
-            sell: data.sell,
-            brand: data.brand,
-            brand_name: b,
             category: data.category,
-            type: data.type,
-            sizes: sizes,
-            colors: colors,
+            language: data.language,
             keywords: k,
             search_keyword: s,
             table: tab,
             des: d,
-            note: n
           }
           console.log(data_obj);
           var newData= await product.findByIdAndUpdate({_id: req.params.id}, {$set:{
             title: data_obj.title,
-            price: data_obj.price,
-            cut_price: data_obj.cut_price,
-            sell_price: data_obj.sell_price,
             visiblity: data_obj.visiblity,
-            discount: data_obj.discount,
-            sell: data_obj.sell,
-            brand: data_obj.brand,
-            brand_name: data_obj.brand_name,
             category: data_obj.category,
-            type: data_obj.type,
-            sizes: data_obj.sizes,
-            colors: data_obj.colors,
+            language: data_obj.language,
             keywords: data_obj.keywords,
             search_keyword: data_obj.search_keyword,
             table: data_obj.table,
             des: data_obj.des,
-            note: data_obj.note
           }},{new: true, useFindAndModify: false})
           res.redirect("/");
     }catch{
@@ -548,12 +678,24 @@ app.post("/delete/:id", (req, res)=>{
     var findAndDelete= async function(){
         try{
         var dataFind= await product.findOne({_id: req.params.id})
-        var images=dataFind.images;
+        console.log(dataFind)
+        console.log(dataFind.main_img)
+        if(dataFind.main_img || dataFind.main_video==undefined||null){
+            console.log("REACHED");
+            var dataDeleteWithoutPic = async function(){
+                var findDelData= await product.findOneAndRemove({_id: req.params.id}, {new: true});
+                console.log(findDelData);
+                res.redirect("/");
+            };
+            dataDeleteWithoutPic();
 
-            if(images.length>0){
-                var imgArr=images.map((val, ind)=>{
-                    return(val.id)
-                })
+        }
+        else{
+            var img=dataFind.main_img.id
+            var vid=dataFind.main_video.id
+            var imgArr=[img,vid]
+
+            if(imgArr.length>0){
                     imgArr.map((val, ind)=>{
                         console.log(val);
                         var deleteData= async function(){
@@ -575,15 +717,9 @@ app.post("/delete/:id", (req, res)=>{
                         deleteData();
                     })
             }
-            else if(images.length<=0){
-                console.log("REACHED");
-                var dataDeleteWithoutPic = async function(){
-                    var findDelData= await product.findOneAndRemove({_id: req.params.id}, {new: true});
-                    console.log(findDelData);
-                    res.redirect("/");
-                };
-                dataDeleteWithoutPic();
-            }
+
+        }
+            
         }
         catch{
             (e)=>{console.log(e)}
@@ -617,11 +753,40 @@ app.get("/search/user/", (req, res)=>{
         let findUser= async function(){
             try{
                 let id= req.query.search;
-                let findUser= await user.findOne({_id: id})
-                console.log(findUser)
-                res.render("userView", {
-                    data: findUser
-                })
+                let type=req.query.type;
+                console.log(type)
+                if(type=="name"){
+                    let fn=async function(){
+                        try{  
+                        let findUser= await user.find({name: {$regex:id}})
+                        console.log(findUser)
+                        res.render("user", {
+                            data: findUser
+                        })
+                        }
+                        catch(e){
+                            console.log(e)
+                        }
+                    }
+                    fn();
+                }
+                else{
+                    
+                    let fi=async function(){
+                        try{  
+                            let findUser= await user.find({_id: id})
+                            console.log(findUser)
+                            res.render("user", {
+                                data: findUser
+                            })
+                        }
+                        catch(e){
+                            console.log(e)
+                        }
+                    }
+                    fi();
+
+                }
             }
             catch{
                 (e)=>{console.log(e)}
@@ -640,6 +805,7 @@ app.get("/cart", (req, res)=>{
         var findCart= async function(){
             try{
                 let findCart=await cartDB.find().sort({date: -1});
+                console.log(findCart)
                 res.render("cart", {
                     data: findCart
                 })
@@ -985,14 +1151,49 @@ app.get("/search/:category/",(req,res)=>{
     else{
         let cate= req.params.category;
         let key=req.query.search;
+        console.log(key.toString())
         if(cate=="product"){
-            let fp= async function(){
-                let find= await product.find({_id: key});
-                res.render("index", {
-                    data: find
-                })
+            let type=req.query.type
+            if(type=="id"){
+                console.log("REACH!")
+                let fpi= async function(){
+                    try{  
+                    let find= await product.find({_id: key});
+                    console.log(find)
+                    res.render("index", {
+                        data: find
+                    })
+                    }
+                    catch(e){
+                        console.log(e)
+                    }
+                };
+                fpi();
+                
+            }
+            else{
+            let fpn= async function(){
+                try{
+                    console.log("REACH2")
+                    let find= await product.find({title:{$regex : key}});
+                    console.log(find)
+                    res.render("index", {
+                        data: find
+                    })    
+                }
+                catch(e){
+                    console.log(e)
+                }
             };
-            fp();
+            fpn();
+            }
+            // let fp= async function(){
+            //     let find= await product.find({_id: key});
+            //     res.render("index", {
+            //         data: find
+            //     })
+            // };
+            // fp();
         }
         else if(cate=="process"){
             let fpr= async function(){

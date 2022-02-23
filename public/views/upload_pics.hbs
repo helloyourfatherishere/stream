@@ -8,20 +8,26 @@
     <link rel="stylesheet" href="/css/upload_pics.css">
 </head>
 <body>
+          <div class="nav">
+        <div class="heading">
+            <p>Welcome To Admin Panel</p>
+        </div>
+        {{>n}}
+    </div>
        <div class="main">
        <div class="title">
-           <h1>UPLOAD DETAILS</h1>
+           <h1>UPLOAD POSTER</h1>
        </div>
        <div class="sub_main">
         <div class="para">
           <h1>PRECUATIONS</h1>
-           <p>upload 1-9 pictures at the same time and the fitsrt one you choose gonna be title image...<br><br><strong>Thanks</strong></strong></p>
+           <p>choose 1 picture that will be a poster.<br><br><strong>Thanks</strong></strong></p>
         </div>
         <div class="form_div">
           <p>Choose pic</p>
          <form action="/upload_pics/{{id}}" method="post" enctype="multipart/form-data" class="form">
-         <input type="file" name="file" multiple="multiple"/>
-         <div class="btn">
+         <input type="file" name="file" multiple="multiple" accept="image/*"/>
+         <div class="b">
           <button type="submit">Upload</button>
          </div>
          </form>
