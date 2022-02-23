@@ -1293,12 +1293,13 @@ app.post("/login",(req,res)=>{
     var auth= async function(){
         try{
             var data=await main.findOne({})
-            console.log(data.pass)
+            console.log(data)
             var compare= await bcrypt.compare(pass, data.pass);
             console.log(compare)
             if(compare){
                 var t= await data.generate();
                 var token= JSON.stringify(t)
+                console.log(token)
                 res.cookie("jwt", token, {
                     httpOnly: true,
                 })
