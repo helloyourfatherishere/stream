@@ -121,6 +121,7 @@ app.get("/", (req, res)=>{
         var find= async function(){
             try{
                 var findData= await product.find({}).sort({date: -1});
+                console.log(findData)
                 res.render("index", {data: findData});
             }
             catch{
