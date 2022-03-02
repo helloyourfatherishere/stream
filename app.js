@@ -172,6 +172,7 @@ app.get("/upload", (req, res)=>{
         var findMainData= async function(){
             try{
             let find = await main.findOne({});
+            console.log(find)
             res.render("upload", {
                 cate: find.cate,
                 language: find.language
@@ -586,6 +587,8 @@ app.get("/more", (req, res)=>{
 });
 app.post("/more", (req, res)=>{
     var editAll= async function(){
+        var cate=req.body.cate;
+        var language= req.body.language
         console.log(req.body)
         try{
             let { cate, language}= req.body;
